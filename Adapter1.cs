@@ -16,8 +16,8 @@ namespace Polymorphism_ex._8
         private Context _context;
         private List<GreetingCard> _items;
         private GreetingCard tempGC;
-        private Dialog selectedCardDialog;
-        private LinearLayout currCardDialogLayout;
+        private Dialog d;
+        //  private LinearLayout currCardDialogLayout;
 
         public Adapter1(Context context, List<GreetingCard> items)
         {
@@ -59,11 +59,16 @@ namespace Polymorphism_ex._8
             {
                 if (CardsList.cardsList[i].ToString() == txtItemProps.Text) 
                 {
-                    if (CardsList.cardsList[i] is BirthdayCard)
+                    if (CardsList.cardsList[i] is AdultBirthCard)
                     {
                         imgItemImage.SetImageResource(Resource.Drawable.greeting_Card);
                         tempGC = CardsList.cardsList[i];
 
+                    }
+                    else if (CardsList.cardsList[i] is YouthBirthCard)
+                    {
+                        imgItemImage.SetImageResource(Resource.Drawable.youthBirthdayCard);
+                        tempGC = CardsList.cardsList[i];
                     }
                     else
                     {
@@ -80,10 +85,6 @@ namespace Polymorphism_ex._8
 
         private void ShowCardBtn_Click(object sender, EventArgs e)//AdapterView.ItemClickEventArgs e
         {
-            //Dialog d = new Dialog(_context);
-            //d.SetContentView(Resource.Layout.IndividualCard);
-            //d.SetTitle("Reset");
-            //d.SetCancelable(true);
             Button clickedBtn = (Button)sender;
             int position = (int)clickedBtn.Tag;
             ShowCurrentCard(position);
@@ -92,11 +93,11 @@ namespace Polymorphism_ex._8
         private void ShowCurrentCard(int position)
         {
             GreetingCard currentCard = CardsList.cardsList[position];
-            selectedCardDialog = new Dialog(this._context);
-            selectedCardDialog.SetContentView(Resource.Layout.IndividualCard);
-            selectedCardDialog.SetCancelable(true);
-            TextView greetingMsgTV = selectedCardDialog.FindViewById<TextView>(Resource.Id.content_txt);
-            currCardDialogLayout = selectedCardDialog.FindViewById<LinearLayout>(Resource.Id.individual_card);
+            d = new Dialog(_context);
+            d.SetContentView(Resource.Layout.IndividualCard);
+            d.SetCancelable(true);
+            TextView greetingMsgTV = d.FindViewById<TextView>(Resource.Id.content_txt);
+            LinearLayout currCardDialogLayout = d.FindViewById<LinearLayout>(Resource.Id.individual_card);
 
             if (currentCard != null)
             {
@@ -110,12 +111,12 @@ namespace Polymorphism_ex._8
                 }
                 if (currentCard is YouthBirthCard)
                 {
-                    currCardDialogLayout.SetBackgroundResource(Resource.Drawable.greeting_Card); // have to change
+                    currCardDialogLayout.SetBackgroundResource(Resource.Drawable.youthBirthdayCard); 
                 }
 
                 greetingMsgTV.Text = currentCard.GreetingMsg();
             }
-            selectedCardDialog.Show();
+            d.Show();
         }
 
     }
