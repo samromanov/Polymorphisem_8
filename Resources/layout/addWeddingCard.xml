@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+    <TextView
+        android:textColor="@android:color/black"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:text="Wedding card"
+        android:textSize="40dp"/>
+    <EditText
+        android:id="@+id/sender_weddingTxt"
+        android:hint="Sender"
+        android:layout_width="200dp"
+        android:layout_height="50dp"/>
+    <EditText
+        android:id="@+id/brideTxt"
+        android:hint="Bride"
+        android:layout_width="200dp"
+        android:layout_height="50dp"/>
+    <EditText
+        android:id="@+id/groomTxt"
+        android:hint="Groom"
+        android:layout_width="200dp"
+        android:layout_height="50dp"/>
+
+
+    <Button
+        android:id="@+id/createWeddingCardBtn"
+        android:layout_marginTop="100dp"
+        android:text="Create"
+        android:layout_width="100dp"
+        android:layout_height="50dp"/>
+
+</LinearLayout>

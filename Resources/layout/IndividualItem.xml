@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+        <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+        <ImageView
+             
+             android:layout_width="100dp"
+             android:layout_height="100dp"
+             android:background="@drawable/greeting_card"
+             android:id="@+id/imgItemImage"/>
+
+
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:id="@+id/txtItemProps"
+            android:layout_width="150dp"
+            android:layout_height="90dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+        <Button
+                android:id="@+id/showCardBtn"
+            android:layout_marginLeft="20dp"
+            android:text="show card"
+            android:layout_width="80dp"
+            android:layout_height="55dp"/>
+        </LinearLayout>/>
+   
+</LinearLayout>
