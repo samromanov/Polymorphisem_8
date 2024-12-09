@@ -16,7 +16,7 @@ namespace Polymorphism_ex._8
         private Context _context;
         private List<GreetingCard> _items;
         private GreetingCard tempGC;
-        private Dialog d;
+        private Dialog d; 
         //  private LinearLayout currCardDialogLayout;
 
         public Adapter1(Context context, List<GreetingCard> items)

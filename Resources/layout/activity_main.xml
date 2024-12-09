@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,7 +8,8 @@
     android:orientation="vertical"
     android:gravity="center">
 
-    <LinearLayout
+
+    <!--  <LinearLayout
         android:gravity="center"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -30,6 +32,126 @@
             android:layout_height="40dp"
             android:textAllCaps="false"
             android:text="Show all cards"/>
-    </LinearLayout>
+    </LinearLayout> -->
+
+    <TabHost
+        android:id="@+id/tabHost"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <!-- Layout for Tab 1 content -->
+                <LinearLayout
+                    android:id="@+id/Birthday"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <TextView
+                        android:textColor="@android:color/black"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:text="Birthday card"
+                        android:textSize="40dp"/>
+                    <EditText
+                        android:id="@+id/sender_birthdayTxt"
+                        android:hint="Sender"
+                        android:layout_width="200dp"
+                        android:layout_height="50dp"/>
+                    <EditText
+                        android:id="@+id/recipientTxt"
+                        android:hint="Recipient"
+                        android:layout_width="200dp"
+                        android:layout_height="50dp"/>
+                    <EditText
+                        android:inputType="number"
+                        android:id="@+id/ageTxt"
+                        android:hint="Age"
+                        android:layout_width="200dp"
+                        android:layout_height="50dp"/>
+                    <Button
+                        android:id="@+id/createBirthdayCardBtn"
+                        android:layout_marginTop="100dp"
+                        android:text="Create"
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"/>
+                </LinearLayout>
+
+                <!-- Layout for Tab 2 content -->
+                <LinearLayout
+                    android:id="@+id/Wedding"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:visibility="gone"> <!-- Initially hidden -->
+                    
+
+                    <TextView
+                        android:textColor="@android:color/black"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:text="Wedding card"
+                        android:textSize="40dp"/>
+                    <EditText
+                        android:id="@+id/sender_weddingTxt"
+                        android:hint="Sender"
+                        android:layout_width="200dp"
+                        android:layout_height="50dp"/>
+                    <EditText
+                        android:id="@+id/brideTxt"
+                        android:hint="Bride"
+                        android:layout_width="200dp"
+                        android:layout_height="50dp"/>
+                    <EditText
+                        android:id="@+id/groomTxt"
+                        android:hint="Groom"
+                        android:layout_width="200dp"
+                        android:layout_height="50dp"/>
+
+
+                    <Button
+                        android:id="@+id/createWeddingCardBtn"
+                        android:layout_marginTop="100dp"
+                        android:text="Create"
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"/>
+                </LinearLayout>
+
+                <!-- Layout for Tab 3 content -->
+                <LinearLayout
+                    android:id="@+id/ShowAll"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:visibility="gone"> <!-- Initially hidden -->
+                    
+
+                    <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/listView1"/>
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
 
 </LinearLayout>

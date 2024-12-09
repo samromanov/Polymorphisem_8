@@ -11,9 +11,20 @@ namespace Polymorphism_ex._8
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
+        private TabHost _tabHost; // the tab host
 
-        private Button addWeddingBtn, addBirthdayBtn, showAllBtn;
-        //private ListView listView1;
+        // Elements for the Birthday tab
+        private Button createBirthdayCardBtn;
+        private EditText sender_birthdayTxt, recipientTxt, ageTxt;
+
+        // Elements for wedding tab
+        private Button createWeddingCardBtn;
+        private EditText sender_weddingTxt, brideTxt, groomTxt;
+
+        // Elements for Show All Cards tab
+        private ListView listView1;
+        private List<GreetingCard> _cardsList;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -25,67 +36,126 @@ namespace Polymorphism_ex._8
         }
         public void Init()
         {
-            addWeddingBtn = FindViewById<Button>(Resource.Id.addWeddingBtn);
-            addBirthdayBtn = FindViewById<Button>(Resource.Id.addBirthdayBtn);
-            showAllBtn = FindViewById<Button>(Resource.Id.showAllBtn);
+            // initialize the TabHost
+            _tabHost = FindViewById<TabHost>(Resource.Id.tabHost);
+            _tabHost.Setup();
 
-            addWeddingBtn.Click += AddWeddingBtn_Click;
-            addBirthdayBtn.Click += AddBirthdayBtn_Click;
-            showAllBtn.Click += ShowAllBtn_Click;
+            //set up Tab 1 (Add Birthday Card)
+            var birthdayTab = _tabHost.NewTabSpec("tab1");
+            birthdayTab.SetIndicator("Add birthday card");
+            birthdayTab.SetContent(Resource.Id.Birthday);
+            _tabHost.AddTab(birthdayTab);
 
-            
+            //set up Tab 2 (Add Birthday Card)
+            var weddingTab = _tabHost.NewTabSpec("tab2");
+            weddingTab.SetIndicator("Add wedding card");
+            weddingTab.SetContent(Resource.Id.Wedding);
+            _tabHost.AddTab(weddingTab);
+
+            //set up Tab 3 (Add Birthday Card)
+            var showAllTab = _tabHost.NewTabSpec("tab3");
+            showAllTab.SetIndicator("Show all cards");
+            showAllTab.SetContent(Resource.Id.ShowAll);
+            _tabHost.AddTab(showAllTab);
+
+            _tabHost.CurrentTab = 2;
+
+            //------------------------------------------------------
+
+            // Add birthday card
+            createBirthdayCardBtn = FindViewById<Button>(Resource.Id.createBirthdayCardBtn);
+            sender_birthdayTxt = FindViewById<EditText>(Resource.Id.sender_birthdayTxt);
+            recipientTxt = FindViewById<EditText>(Resource.Id.recipientTxt);
+            ageTxt = FindViewById<EditText>(Resource.Id.ageTxt);
+
+            createBirthdayCardBtn.Click += CreateBirthdayCardBtn_Click;
+
+            // Add wedding card
+            createWeddingCardBtn = FindViewById<Button>(Resource.Id.createWeddingCardBtn);
+            sender_weddingTxt = FindViewById<EditText>(Resource.Id.sender_weddingTxt);
+            brideTxt = FindViewById<EditText>(Resource.Id.brideTxt);
+            groomTxt = FindViewById<EditText>(Resource.Id.groomTxt);
+
+            createWeddingCardBtn.Click += CreateWeddingCardBtn_Click;
+
+            // Show all cards
+            listView1 = FindViewById<ListView>(Resource.Id.listView1); // Get reference to the ListView 
+            Adapter1 adapter = new Adapter1(this, CardsList.cardsList); // Create an instance of the adapter   
+            listView1.Adapter = adapter; // Set the adapter to the ListView
+
+            //------------------------------------------------------
+
+
+
         }
 
-        private void ShowAllBtn_Click(object sender, System.EventArgs e)
-        {
-            Intent showCards_intent = new Intent(this, typeof(ShowAllCradsActivity));
-            StartActivity(showCards_intent);
-        }
 
-        private void AddBirthdayBtn_Click(object sender, System.EventArgs e)
+        // Add birthday card tab
+        private void CreateBirthdayCardBtn_Click(object sender, System.EventArgs e)
         {
-            Intent addBirthday_intent = new Intent(this, typeof(AddBirthdayActivity));
-            StartActivityForResult(addBirthday_intent, 1);
-        }
-
-        private void AddWeddingBtn_Click(object sender, System.EventArgs e)
-        {
-            Intent addWedding_intent = new Intent(this, typeof(AddWeddingActivity));
-            StartActivityForResult(addWedding_intent, 2);
-        }
-
-
-        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
-        {
-            base.OnActivityResult(requestCode, resultCode, data);
-            if (requestCode == 1) // if birthday
+            if (int.Parse(ageTxt.Text) < 18) // if the recipient isn't an adult
             {
-                if (resultCode == Result.Ok)
-                {
-                    string[] newBirthdayCard = data.Extras.GetStringArray("newBirthdayCard");
-                    if (int.Parse(newBirthdayCard[2]) < 18) // if the recipient is young
-                    {
-                        YouthBirthCard newYouthBDCard = new YouthBirthCard(newBirthdayCard[1], newBirthdayCard[0], int.Parse(newBirthdayCard[2]));
-                        CardsList.cardsList.Add(newYouthBDCard);
-                    }
-                    else // if the recipient is an adult
-                    {
-                        AdultBirthCard newAdultBDCard = new AdultBirthCard(newBirthdayCard[1], newBirthdayCard[0], int.Parse(newBirthdayCard[2]));
-                        CardsList.cardsList.Add(newAdultBDCard);
-                    }
-                }
-                
+                YouthBirthCard newYouthBDCard = new YouthBirthCard(recipientTxt.Text,sender_birthdayTxt.Text,int.Parse(ageTxt.Text));
+                CardsList.cardsList.Add(newYouthBDCard);
             }
-            else // if wedding
+            else // if the recipient is an adult
             {
-                if (resultCode == Result.Ok)
-                {
-                    string[] newWeddingCard = data.Extras.GetStringArray("newWeddingCard");
-                    WeddingCard newWGCard = new WeddingCard(newWeddingCard[1], newWeddingCard[2], newWeddingCard[0]);
-                    CardsList.cardsList.Add(newWGCard);
-                }
+                AdultBirthCard newAdultBDCard = new AdultBirthCard(recipientTxt.Text, sender_birthdayTxt.Text, int.Parse(ageTxt.Text));
+                CardsList.cardsList.Add(newAdultBDCard);
             }
+
+            _tabHost.CurrentTab = 2;
         }
+
+
+        // Add wedding card tab
+        private void CreateWeddingCardBtn_Click(object sender, System.EventArgs e)
+        {
+            WeddingCard newWGCard = new WeddingCard(brideTxt.Text, groomTxt.Text, sender_weddingTxt.Text);
+            CardsList.cardsList.Add(newWGCard);
+
+            _tabHost.CurrentTab = 2;
+        }
+
+
+
+        // Show all cards tab
+
+
+
+
+
+        //protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
+        //{
+        //    base.OnActivityResult(requestCode, resultCode, data);
+        //    if (requestCode == 1) // if birthday
+        //    {
+        //        if (resultCode == Result.Ok)
+        //        {
+        //            string[] newBirthdayCard = data.Extras.GetStringArray("newBirthdayCard");
+        //            if (int.Parse(newBirthdayCard[2]) < 18) // if the recipient is young
+        //            {
+        //                YouthBirthCard newYouthBDCard = new YouthBirthCard(newBirthdayCard[1], newBirthdayCard[0], int.Parse(newBirthdayCard[2]));
+        //                CardsList.cardsList.Add(newYouthBDCard);
+        //            }
+        //            else // if the recipient is an adult
+        //            {
+        //                AdultBirthCard newAdultBDCard = new AdultBirthCard(newBirthdayCard[1], newBirthdayCard[0], int.Parse(newBirthdayCard[2]));
+        //                CardsList.cardsList.Add(newAdultBDCard);
+        //            }
+        //        }
+
+        //    }
+        //    else // if wedding
+        //    {
+        //        if (resultCode == Result.Ok)
+        //        {
+        //            string[] newWeddingCard = data.Extras.GetStringArray("newWeddingCard");
+        //            WeddingCard newWGCard = new WeddingCard(newWeddingCard[1], newWeddingCard[2], newWeddingCard[0]);
+        //            CardsList.cardsList.Add(newWGCard);
+        //        }
+        //    }
+        //}
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);

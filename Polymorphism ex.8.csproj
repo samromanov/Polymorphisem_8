@@ -62,8 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adapter1.cs" />
-    <Compile Include="AddBirthdayActivity.cs" />
-    <Compile Include="AddWeddingActivity.cs" />
     <Compile Include="AdultBirthCard.cs" />
     <Compile Include="BirthdayCard.cs" />
     <Compile Include="CardsList.cs" />
@@ -71,8 +69,6 @@
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ShowAllCradsActivity.cs" />
-    <Compile Include="UpdateCheckActivity.cs" />
     <Compile Include="WeddingCard.cs" />
     <Compile Include="YouthBirthCard.cs" />
   </ItemGroup>
@@ -114,21 +110,6 @@
     <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.2.0.5" />
     <PackageReference Include="Xamarin.Google.Android.Material" Version="1.0.0.1" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\addWeddingCard.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\addBirthdayCard.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\showAllCards.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\IndividualItem.xml">
