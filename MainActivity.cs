@@ -11,9 +11,21 @@ namespace Polymorphism_ex._8
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
+        private TabHost _tabHost;
 
-        private Button addWeddingBtn, addBirthdayBtn, showAllBtn;
-        //private ListView listView1;
+        // Elements for the Birthday tab
+        private Button createBirthdayCardBtn;
+        private EditText sender_birthdayTxt, recipientTxt, ageTxt;
+
+        // Elements for wedding tab
+        private Button createWeddingCardBtn;
+        private EditText sender_weddingTxt, brideTxt, groomTxt;
+
+        // Elements for Show All Cards tab
+        private Button backBtn;
+        private ListView listView1;
+        private List<GreetingCard> _cardsList;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -25,35 +37,28 @@ namespace Polymorphism_ex._8
         }
         public void Init()
         {
-            addWeddingBtn = FindViewById<Button>(Resource.Id.addWeddingBtn);
-            addBirthdayBtn = FindViewById<Button>(Resource.Id.addBirthdayBtn);
-            showAllBtn = FindViewById<Button>(Resource.Id.showAllBtn);
+            // initialize the TabHost
+            _tabHost = FindViewById<TabHost>(Resource.Id.tabHost);
+            _tabHost.Setup();
 
-            addWeddingBtn.Click += AddWeddingBtn_Click;
-            addBirthdayBtn.Click += AddBirthdayBtn_Click;
-            showAllBtn.Click += ShowAllBtn_Click;
+            //set up Tab 1 (Add Birthday Card)
+            var tab1 = _tabHost.NewTabSpec("tab1");
+            tab1.SetIndicator("Tab 1");
+            tab1.SetContent(Resource.Id.Birthday);
+            _tabHost.AddTab(tab1);
 
-            
+            //set up Tab 2 (Add Birthday Card)
+            var tab2 = _tabHost.NewTabSpec("tab1");
+            tab1.SetIndicator("Tab 2");
+            tab1.SetContent(Resource.Id.Wedding);
+            _tabHost.AddTab(tab1);
+
+            //set up Tab 3 (Add Birthday Card)
+            var tab3 = _tabHost.NewTabSpec("tab1");
+            tab1.SetIndicator("Tab 3");
+            tab1.SetContent(Resource.Id.ShowAll);
+            _tabHost.AddTab(tab1);
         }
-
-        private void ShowAllBtn_Click(object sender, System.EventArgs e)
-        {
-            Intent showCards_intent = new Intent(this, typeof(ShowAllCradsActivity));
-            StartActivity(showCards_intent);
-        }
-
-        private void AddBirthdayBtn_Click(object sender, System.EventArgs e)
-        {
-            Intent addBirthday_intent = new Intent(this, typeof(AddBirthdayActivity));
-            StartActivityForResult(addBirthday_intent, 1);
-        }
-
-        private void AddWeddingBtn_Click(object sender, System.EventArgs e)
-        {
-            Intent addWedding_intent = new Intent(this, typeof(AddWeddingActivity));
-            StartActivityForResult(addWedding_intent, 2);
-        }
-
 
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
         {

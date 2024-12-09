@@ -22,7 +22,7 @@ namespace Polymorphism_ex._8
         {
             base.OnCreate(savedInstanceState);
 
-            SetContentView(Resource.Layout.showAllCards);
+            //SetContentView(Resource.Layout.showAllCards);
 
             // Create your application here
             Init();

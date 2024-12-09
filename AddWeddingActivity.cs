@@ -20,7 +20,7 @@ namespace Polymorphism_ex._8
         {
             base.OnCreate(savedInstanceState);
 
-            SetContentView(Resource.Layout.addWeddingCard);
+            //SetContentView(Resource.Layout.addWeddingCard);
             // Create your application here
             Init();
         }

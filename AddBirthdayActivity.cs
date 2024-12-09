@@ -15,7 +15,7 @@ namespace Polymorphism_ex._8
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.addBirthdayCard);
+            //SetContentView(Resource.Layout.addBirthdayCard);
 
             // Create your application here
             Init();
