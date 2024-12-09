@@ -72,6 +72,7 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShowAllCradsActivity.cs" />
+    <Compile Include="UpdateCheckActivity.cs" />
     <Compile Include="WeddingCard.cs" />
     <Compile Include="YouthBirthCard.cs" />
   </ItemGroup>
