@@ -118,6 +118,23 @@ namespace Polymorphism_ex._8
             }
             d.Show();
         }
+        public void HideItemAt(int position) // make a certain item disappear
+        {
+            var view = GetView(position, null, null);
+            view.Visibility = ViewStates.Gone;
+        }
 
+        public void ShowItemAt(int position) // make a certain item appear
+        {
+            var view = GetView(position, null, null);
+            view.Visibility = ViewStates.Visible;
+        }
+
+        internal class ViewHolder
+        {
+            public ImageView ImageView { get; set; }
+            public TextView TextView { get; set; }
+            public Button Button { get; set; }
+        }
     }
 }

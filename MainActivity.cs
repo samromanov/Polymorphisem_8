@@ -1,5 +1,4 @@
 ﻿using Android.App;
-using Android.Content;
 using Android.OS;
 using Android.Runtime;
 using Android.Widget;
@@ -11,6 +10,8 @@ namespace Polymorphism_ex._8
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
+        private Adapter1 _adapter;
+
         private TabHost _tabHost; // the tab host
         private TabWidget _tabs;
         private FrameLayout _tabContent;
@@ -26,6 +27,7 @@ namespace Polymorphism_ex._8
         // Elements for Show All Cards tab
         private ListView listView1;
         private List<GreetingCard> _cardsList;
+        private Spinner _filterSpinner;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -42,25 +44,26 @@ namespace Polymorphism_ex._8
             _tabHost = FindViewById<TabHost>(Resource.Id.tabHost);
             _tabHost.Setup();
 
-            //set up Tab 1 (Add Birthday Card)
-            var birthdayTab = _tabHost.NewTabSpec("tab1");
-            birthdayTab.SetIndicator("Add birthday card");
-            birthdayTab.SetContent(Resource.Id.Birthday);
-            _tabHost.AddTab(birthdayTab);
+            //set up Tab 1 (Show All Cards)
+            var showAllTab = _tabHost.NewTabSpec("tab1");
+            showAllTab.SetIndicator("Show all cards");
+            showAllTab.SetContent(Resource.Id.ShowAll);
+            _tabHost.AddTab(showAllTab);
 
-            //set up Tab 2 (Add Birthday Card)
+
+            //set up Tab 2 (Add Wedding Card)
             var weddingTab = _tabHost.NewTabSpec("tab2");
             weddingTab.SetIndicator("Add wedding card");
             weddingTab.SetContent(Resource.Id.Wedding);
             _tabHost.AddTab(weddingTab);
 
             //set up Tab 3 (Add Birthday Card)
-            var showAllTab = _tabHost.NewTabSpec("tab3");
-            showAllTab.SetIndicator("Show all cards");
-            showAllTab.SetContent(Resource.Id.ShowAll);
-            _tabHost.AddTab(showAllTab);
+            var birthdayTab = _tabHost.NewTabSpec("tab3");
+            birthdayTab.SetIndicator("Add birthday card");
+            birthdayTab.SetContent(Resource.Id.Birthday);
+            _tabHost.AddTab(birthdayTab);
 
-            _tabHost.CurrentTab = 2;
+            _tabHost.CurrentTab = 0;
 
             //------------------------------------------------------
 
@@ -81,13 +84,20 @@ namespace Polymorphism_ex._8
             createWeddingCardBtn.Click += CreateWeddingCardBtn_Click;
 
             // Show all cards
+            _filterSpinner = FindViewById<Spinner>(Resource.Id.filterSpinner);
             listView1 = FindViewById<ListView>(Resource.Id.listView1); // Get reference to the ListView 
-            Adapter1 adapter = new Adapter1(this, CardsList.cardsList); // Create an instance of the adapter   
-            listView1.Adapter = adapter; // Set the adapter to the ListView
+            _adapter = new Adapter1(this, CardsList.cardsList); // Create an instance of the adapter   
+            listView1.Adapter = _adapter; // Set the adapter to the ListView
+
+            var options = new string[] { "Adult Birthday Cards", "Youth Birthday Cards", "Wedding Cards", "All Cards" }; // filter spinner options
+
+            // Create an adapter with the string array
+            ArrayAdapter<string> arrayAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, options);
+            _filterSpinner.Adapter = arrayAdapter; // Set the adapter for the spinner
 
             //------------------------------------------------------
 
-
+            Filter();
 
         }
 
@@ -116,7 +126,7 @@ namespace Polymorphism_ex._8
                     CardsList.cardsList.Add(newAdultBDCard);
                 }
 
-                _tabHost.CurrentTab = 2;
+                _tabHost.CurrentTab = 0;
 
                 recipientTxt.Text = "";
                 sender_birthdayTxt.Text = "";
@@ -128,7 +138,7 @@ namespace Polymorphism_ex._8
         // Add wedding card tab
         private void CreateWeddingCardBtn_Click(object sender, System.EventArgs e)
         {
-            if (groomTxt.Text == "" || brideTxt.Text == "" || sender_weddingTxt.Text == "") 
+            if (groomTxt.Text == "" || brideTxt.Text == "" || sender_weddingTxt.Text == "")
             {
                 Toast.MakeText(this, "Empty fields detected!", ToastLength.Short).Show();
             }
@@ -137,21 +147,85 @@ namespace Polymorphism_ex._8
                 WeddingCard newWGCard = new WeddingCard(brideTxt.Text, groomTxt.Text, sender_weddingTxt.Text);
                 CardsList.cardsList.Add(newWGCard);
 
-                _tabHost.CurrentTab = 2;
+                _tabHost.CurrentTab = 0;
 
                 brideTxt.Text = "";
                 groomTxt.Text = "";
                 sender_weddingTxt.Text = "";
             }
-           
-
-
         }
 
 
 
         // Show all cards tab
 
+        public void Filter() // options - "Adult Birthday Cards", "Youth Birthday Cards" , "Wedding Cards" , "All Cards"
+        {
+            string selectedOption = _filterSpinner.SelectedItem.ToString();
+
+
+            if (selectedOption == "Adult Birthday Cards")
+            {
+                int index = 0;
+                foreach (var card in CardsList.cardsList)
+                {
+                    if (!(card is AdultBirthCard)) // not a birthday card
+                    {
+                        _adapter.HideItemAt(index);
+                    }
+                    if (card is AdultBirthCard)
+                    {
+                        _adapter.ShowItemAt(index);
+                    }
+                    index++;
+                }
+            }
+            else if (selectedOption == "Youth Birthday Cards")
+            {
+                int index = 0;
+                foreach (var card in CardsList.cardsList)
+                {
+                    if (!(card is YouthBirthCard))
+                    {
+                        _adapter.HideItemAt(index);
+                    }
+                    if (card is YouthBirthCard)
+                    {
+                        _adapter.ShowItemAt(index);
+                    }
+                    index++;
+                }
+            }
+            else if (selectedOption == "Wedding Cards")
+            {
+                int index = 0;
+                foreach (var card in CardsList.cardsList)
+                {
+                    if (!(card is WeddingCard))
+                    {
+                        _adapter.HideItemAt(index);
+                    }
+                    if (card is WeddingCard)
+                    {
+                        _adapter.ShowItemAt(index);
+                    }
+                    index++;
+                }
+            }
+            else // if (selectedOption == "All Cards")
+            {
+                int index = 0;
+                foreach (var card in CardsList.cardsList)
+                {
+                    _adapter.ShowItemAt(index);
+                    index++;
+                }
+            }
+            _adapter.NotifyDataSetChanged();
+
+
+
+        }
 
 
 
