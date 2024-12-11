@@ -12,6 +12,8 @@ namespace Polymorphism_ex._8
     public class MainActivity : AppCompatActivity
     {
         private TabHost _tabHost; // the tab host
+        private TabWidget _tabs;
+        private FrameLayout _tabContent;
 
         // Elements for the Birthday tab
         private Button createBirthdayCardBtn;
@@ -93,28 +95,57 @@ namespace Polymorphism_ex._8
         // Add birthday card tab
         private void CreateBirthdayCardBtn_Click(object sender, System.EventArgs e)
         {
-            if (int.Parse(ageTxt.Text) < 18) // if the recipient isn't an adult
+            if (recipientTxt.Text == "" || sender_birthdayTxt.Text == "" || ageTxt.Text == "")
             {
-                YouthBirthCard newYouthBDCard = new YouthBirthCard(recipientTxt.Text,sender_birthdayTxt.Text,int.Parse(ageTxt.Text));
-                CardsList.cardsList.Add(newYouthBDCard);
+                Toast.MakeText(this, "Empty fields detected!", ToastLength.Short).Show();
             }
-            else // if the recipient is an adult
+            else if (int.Parse(ageTxt.Text) <= 0 || int.Parse(ageTxt.Text) > 126)
             {
-                AdultBirthCard newAdultBDCard = new AdultBirthCard(recipientTxt.Text, sender_birthdayTxt.Text, int.Parse(ageTxt.Text));
-                CardsList.cardsList.Add(newAdultBDCard);
+                Toast.MakeText(this, "Are you sure this is the correct age?!", ToastLength.Short).Show();
             }
+            else
+            {
+                if (int.Parse(ageTxt.Text) < 18) // if the recipient isn't an adult
+                {
+                    YouthBirthCard newYouthBDCard = new YouthBirthCard(recipientTxt.Text, sender_birthdayTxt.Text, int.Parse(ageTxt.Text));
+                    CardsList.cardsList.Add(newYouthBDCard);
+                }
+                else // if the recipient is an adult
+                {
+                    AdultBirthCard newAdultBDCard = new AdultBirthCard(recipientTxt.Text, sender_birthdayTxt.Text, int.Parse(ageTxt.Text));
+                    CardsList.cardsList.Add(newAdultBDCard);
+                }
 
-            _tabHost.CurrentTab = 2;
+                _tabHost.CurrentTab = 2;
+
+                recipientTxt.Text = "";
+                sender_birthdayTxt.Text = "";
+                ageTxt.Text = "";
+            }
         }
 
 
         // Add wedding card tab
         private void CreateWeddingCardBtn_Click(object sender, System.EventArgs e)
         {
-            WeddingCard newWGCard = new WeddingCard(brideTxt.Text, groomTxt.Text, sender_weddingTxt.Text);
-            CardsList.cardsList.Add(newWGCard);
+            if (groomTxt.Text == "" || brideTxt.Text == "" || sender_weddingTxt.Text == "") 
+            {
+                Toast.MakeText(this, "Empty fields detected!", ToastLength.Short).Show();
+            }
+            else
+            {
+                WeddingCard newWGCard = new WeddingCard(brideTxt.Text, groomTxt.Text, sender_weddingTxt.Text);
+                CardsList.cardsList.Add(newWGCard);
 
-            _tabHost.CurrentTab = 2;
+                _tabHost.CurrentTab = 2;
+
+                brideTxt.Text = "";
+                groomTxt.Text = "";
+                sender_weddingTxt.Text = "";
+            }
+           
+
+
         }
 
 

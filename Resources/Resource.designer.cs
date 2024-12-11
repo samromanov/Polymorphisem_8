@@ -3371,10 +3371,13 @@ namespace Polymorphism_ex._8
 			public const int tooltip_frame_light = 2131165312;
 			
 			// aapt resource value: 0x7F070081
-			public const int weddingCard = 2131165313;
+			public const int wallpaper = 2131165313;
 			
 			// aapt resource value: 0x7F070082
-			public const int youthBirthdayCard = 2131165314;
+			public const int weddingCard = 2131165314;
+			
+			// aapt resource value: 0x7F070083
+			public const int youthBirthdayCard = 2131165315;
 			
 			static Drawable()
 			{
