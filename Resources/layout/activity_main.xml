@@ -100,13 +100,19 @@
                         android:id="@+id/sender_birthdayTxt"
                         android:hint="Sender"
                         android:layout_width="200dp"
-                        android:layout_height="50dp"/>
+                        android:layout_height="50dp"
+                        android:singleLine="true"
+                        android:imeOptions="actionDone"/>
                     <EditText
                         android:id="@+id/recipientTxt"
+                        android:singleLine="true"
+                        android:imeOptions="actionDone"
                         android:hint="Recipient"
                         android:layout_width="200dp"
                         android:layout_height="50dp"/>
                     <EditText
+                        android:singleLine="true"
+                        android:imeOptions="actionDone"
                         android:inputType="number"
                         android:id="@+id/ageTxt"
                         android:hint="Age"
@@ -132,6 +138,8 @@
                     
 
                     <TextView
+                        android:singleLine="true"
+                        android:imeOptions="actionDone"
                         android:textColor="@android:color/black"
                         android:gravity="center"
                         android:layout_width="match_parent"
@@ -139,16 +147,22 @@
                         android:text="Wedding card"
                         android:textSize="40dp"/>
                     <EditText
+                        android:singleLine="true"
+                        android:imeOptions="actionDone"
                         android:id="@+id/sender_weddingTxt"
                         android:hint="Sender"
                         android:layout_width="200dp"
                         android:layout_height="50dp"/>
                     <EditText
+                        android:singleLine="true"
+                        android:imeOptions="actionDone"
                         android:id="@+id/brideTxt"
                         android:hint="Bride"
                         android:layout_width="200dp"
                         android:layout_height="50dp"/>
                     <EditText
+                        android:singleLine="true"
+                        android:imeOptions="actionDone"
                         android:id="@+id/groomTxt"
                         android:hint="Groom"
                         android:layout_width="200dp"

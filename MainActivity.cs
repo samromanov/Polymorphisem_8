@@ -73,6 +73,14 @@ namespace Polymorphism_ex._8
             recipientTxt = FindViewById<EditText>(Resource.Id.recipientTxt);
             ageTxt = FindViewById<EditText>(Resource.Id.ageTxt);
 
+            // Disable multiline input
+            sender_birthdayTxt.SetSingleLine(true); // Ensures single-line input
+            recipientTxt.SetSingleLine(true); // Ensures single-line input
+            ageTxt.SetSingleLine(true); // Ensures single-line input
+            sender_birthdayTxt.ImeOptions = Android.Views.InputMethods.ImeAction.Done; // Optionally set the IME action
+            recipientTxt.ImeOptions = Android.Views.InputMethods.ImeAction.Done; // Optionally set the IME action
+            ageTxt.ImeOptions = Android.Views.InputMethods.ImeAction.Done; // Optionally set the IME action
+
             createBirthdayCardBtn.Click += CreateBirthdayCardBtn_Click;
 
             // Add wedding card
@@ -81,15 +89,24 @@ namespace Polymorphism_ex._8
             brideTxt = FindViewById<EditText>(Resource.Id.brideTxt);
             groomTxt = FindViewById<EditText>(Resource.Id.groomTxt);
 
+            // Disable multiline input
+            sender_weddingTxt.SetSingleLine(true); // Ensures single-line input
+            brideTxt.SetSingleLine(true); // Ensures single-line input
+            groomTxt.SetSingleLine(true); // Ensures single-line input
+            sender_weddingTxt.ImeOptions = Android.Views.InputMethods.ImeAction.Done; // Optionally set the IME action
+            groomTxt.ImeOptions = Android.Views.InputMethods.ImeAction.Done; // Optionally set the IME action
+            brideTxt.ImeOptions = Android.Views.InputMethods.ImeAction.Done; // Optionally set the IME action
+
             createWeddingCardBtn.Click += CreateWeddingCardBtn_Click;
 
             // Show all cards
             _filterSpinner = FindViewById<Spinner>(Resource.Id.filterSpinner);
+            _filterSpinner.ItemSelected += _filterSpinner_ItemSelected;
             listView1 = FindViewById<ListView>(Resource.Id.listView1); // Get reference to the ListView 
             _adapter = new Adapter1(this, CardsList.cardsList); // Create an instance of the adapter   
             listView1.Adapter = _adapter; // Set the adapter to the ListView
 
-            var options = new string[] { "Adult Birthday Cards", "Youth Birthday Cards", "Wedding Cards", "All Cards" }; // filter spinner options
+            var options = new string[] { "All Cards", "Adult Birthday Cards", "Youth Birthday Cards", "Wedding Cards" }; // filter spinner options
 
             // Create an adapter with the string array
             ArrayAdapter<string> arrayAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, options);
@@ -99,6 +116,12 @@ namespace Polymorphism_ex._8
 
             Filter();
 
+        }
+
+        private void _filterSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            
+            Filter();
         }
 
 
@@ -126,7 +149,7 @@ namespace Polymorphism_ex._8
                     CardsList.cardsList.Add(newAdultBDCard);
                 }
 
-                _tabHost.CurrentTab = 0;
+                //_tabHost.CurrentTab = 0;
 
                 recipientTxt.Text = "";
                 sender_birthdayTxt.Text = "";
@@ -147,7 +170,7 @@ namespace Polymorphism_ex._8
                 WeddingCard newWGCard = new WeddingCard(brideTxt.Text, groomTxt.Text, sender_weddingTxt.Text);
                 CardsList.cardsList.Add(newWGCard);
 
-                _tabHost.CurrentTab = 0;
+                //_tabHost.CurrentTab = 0;
 
                 brideTxt.Text = "";
                 groomTxt.Text = "";
@@ -164,18 +187,24 @@ namespace Polymorphism_ex._8
             string selectedOption = _filterSpinner.SelectedItem.ToString();
 
 
+
+            var list = new List<GreetingCard>();
+
+
             if (selectedOption == "Adult Birthday Cards")
             {
                 int index = 0;
                 foreach (var card in CardsList.cardsList)
                 {
-                    if (!(card is AdultBirthCard)) // not a birthday card
-                    {
-                        _adapter.HideItemAt(index);
-                    }
+                    //if (!(card is AdultBirthCard)) // not a birthday card
+                    //{
+                    //    //_adapter.HideItemAt(index);
+
+                    //}
                     if (card is AdultBirthCard)
                     {
-                        _adapter.ShowItemAt(index);
+                        //_adapter.ShowItemAt(index);
+                        list.Add(card);
                     }
                     index++;
                 }
@@ -185,13 +214,13 @@ namespace Polymorphism_ex._8
                 int index = 0;
                 foreach (var card in CardsList.cardsList)
                 {
-                    if (!(card is YouthBirthCard))
-                    {
-                        _adapter.HideItemAt(index);
-                    }
+                    //if (!(card is YouthBirthCard))
+                    //{
+                    //    _adapter.HideItemAt(index);
+                    //}
                     if (card is YouthBirthCard)
                     {
-                        _adapter.ShowItemAt(index);
+                        list.Add(card);
                     }
                     index++;
                 }
@@ -201,13 +230,13 @@ namespace Polymorphism_ex._8
                 int index = 0;
                 foreach (var card in CardsList.cardsList)
                 {
-                    if (!(card is WeddingCard))
-                    {
-                        _adapter.HideItemAt(index);
-                    }
+                    //if (!(card is WeddingCard))
+                    //{
+                    //    _adapter.HideItemAt(index);
+                    //}
                     if (card is WeddingCard)
                     {
-                        _adapter.ShowItemAt(index);
+                        list.Add(card);
                     }
                     index++;
                 }
@@ -217,11 +246,15 @@ namespace Polymorphism_ex._8
                 int index = 0;
                 foreach (var card in CardsList.cardsList)
                 {
-                    _adapter.ShowItemAt(index);
+                    list.Add(card);
                     index++;
                 }
             }
-            _adapter.NotifyDataSetChanged();
+
+
+            _adapter = new Adapter1(this, list); // Create an instance of the adapter   
+            listView1.Adapter = _adapter; // Set the adapter to the ListView            
+            //_adapter.NotifyDataSetChanged();
 
 
 
@@ -261,6 +294,12 @@ namespace Polymorphism_ex._8
         //        }
         //    }
         //}
+        //protected override void OnResume()
+        //{
+        //    base.OnResume();
+        //    Filter();
+        //}
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
