@@ -90,8 +90,16 @@ namespace Polymorphism_ex._8
             ShowCurrentCard(position);
 
         }
+        
         private void ShowCurrentCard(int position)
         {
+            //var contactUs_dialog = new Dialog(this);
+            //contactUs_dialog.SetContentView(Resource.Layout.contactUs);
+            //var _phoneNum = FindViewById<TextView>(Resource.Id.phoneNum);
+            //var _email = FindViewById<TextView>(Resource.Id.email);
+            //var _sendSMS = FindViewById<TextView>(Resource.Id.sendSMS);
+
+            //contactUs_dialog.Show();
             GreetingCard currentCard = CardsList.cardsList[position];
             d = new Dialog(_context);
             d.SetContentView(Resource.Layout.IndividualCard);
