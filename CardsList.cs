@@ -22,5 +22,6 @@ namespace Polymorphism_ex._8
         {
             cardsList.Add(card);
         }
+        
     }
 }

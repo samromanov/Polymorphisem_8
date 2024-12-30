@@ -103,9 +103,8 @@ namespace Polymorphism_ex._8
             GreetingCard currentCard = CardsList.cardsList[position];
             d = new Dialog(_context);
             d.SetContentView(Resource.Layout.IndividualCard);
-            d.SetCancelable(true);
-            TextView greetingMsgTV = d.FindViewById<TextView>(Resource.Id.content_txt);
-            LinearLayout currCardDialogLayout = d.FindViewById<LinearLayout>(Resource.Id.individual_card);
+            var greetingMsgTV = d.FindViewById<TextView>(Resource.Id.content_txt);
+            var currCardDialogLayout = d.FindViewById<LinearLayout>(Resource.Id.individual_card);
 
             if (currentCard != null)
             {

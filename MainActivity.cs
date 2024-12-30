@@ -37,6 +37,9 @@ namespace Polymorphism_ex._8
             SetContentView(Resource.Layout.activity_main);
 
             Init();
+
+            _adapter = new Adapter1(this, CardsList.cardsList); // Create an instance of the adapter   
+            listView1.Adapter = _adapter; // Set the adapter to the ListView 
         }
         public void Init()
         {
@@ -73,14 +76,6 @@ namespace Polymorphism_ex._8
             recipientTxt = FindViewById<EditText>(Resource.Id.recipientTxt);
             ageTxt = FindViewById<EditText>(Resource.Id.ageTxt);
 
-            // Disable multiline input
-            sender_birthdayTxt.SetSingleLine(true); // Ensures single-line input
-            recipientTxt.SetSingleLine(true); // Ensures single-line input
-            ageTxt.SetSingleLine(true); // Ensures single-line input
-            sender_birthdayTxt.ImeOptions = Android.Views.InputMethods.ImeAction.Done; // Optionally set the IME action
-            recipientTxt.ImeOptions = Android.Views.InputMethods.ImeAction.Done; // Optionally set the IME action
-            ageTxt.ImeOptions = Android.Views.InputMethods.ImeAction.Done; // Optionally set the IME action
-
             createBirthdayCardBtn.Click += CreateBirthdayCardBtn_Click;
 
             // Add wedding card
@@ -88,14 +83,6 @@ namespace Polymorphism_ex._8
             sender_weddingTxt = FindViewById<EditText>(Resource.Id.sender_weddingTxt);
             brideTxt = FindViewById<EditText>(Resource.Id.brideTxt);
             groomTxt = FindViewById<EditText>(Resource.Id.groomTxt);
-
-            // Disable multiline input
-            sender_weddingTxt.SetSingleLine(true); // Ensures single-line input
-            brideTxt.SetSingleLine(true); // Ensures single-line input
-            groomTxt.SetSingleLine(true); // Ensures single-line input
-            sender_weddingTxt.ImeOptions = Android.Views.InputMethods.ImeAction.Done; // Optionally set the IME action
-            groomTxt.ImeOptions = Android.Views.InputMethods.ImeAction.Done; // Optionally set the IME action
-            brideTxt.ImeOptions = Android.Views.InputMethods.ImeAction.Done; // Optionally set the IME action
 
             createWeddingCardBtn.Click += CreateWeddingCardBtn_Click;
 
@@ -142,11 +129,33 @@ namespace Polymorphism_ex._8
                 {
                     YouthBirthCard newYouthBDCard = new YouthBirthCard(recipientTxt.Text, sender_birthdayTxt.Text, int.Parse(ageTxt.Text));
                     CardsList.cardsList.Add(newYouthBDCard);
+                    _adapter = new Adapter1(this, CardsList.cardsList); // Create an instance of the adapter   
+                    listView1.Adapter = _adapter;
+
+                    var d = new Dialog(this);
+                    d.SetContentView(Resource.Layout.IndividualCard);
+                    var _content_text = d.FindViewById<TextView>(Resource.Id.content_txt);
+                    var _individual_card = d.FindViewById<LinearLayout>(Resource.Id.individual_card);
+                    _individual_card.SetBackgroundResource(Resource.Drawable.youthBirthdayCard);
+                    _content_text.Text = newYouthBDCard.GreetingMsg();
+
+                    d.Show();
                 }
                 else // if the recipient is an adult
                 {
                     AdultBirthCard newAdultBDCard = new AdultBirthCard(recipientTxt.Text, sender_birthdayTxt.Text, int.Parse(ageTxt.Text));
                     CardsList.cardsList.Add(newAdultBDCard);
+                    _adapter = new Adapter1(this, CardsList.cardsList); // Create an instance of the adapter   
+                    listView1.Adapter = _adapter;
+
+                    var d = new Dialog(this);
+                    d.SetContentView(Resource.Layout.IndividualCard);
+                    var _content_text = d.FindViewById<TextView>(Resource.Id.content_txt);
+                    var _individual_card = d.FindViewById<LinearLayout>(Resource.Id.individual_card);
+                    _individual_card.SetBackgroundResource(Resource.Drawable.greeting_Card);
+                    _content_text.Text = newAdultBDCard.GreetingMsg();
+
+                    d.Show();
                 }
 
                 //_tabHost.CurrentTab = 0;
@@ -154,6 +163,8 @@ namespace Polymorphism_ex._8
                 recipientTxt.Text = "";
                 sender_birthdayTxt.Text = "";
                 ageTxt.Text = "";
+
+
             }
         }
 
@@ -170,7 +181,19 @@ namespace Polymorphism_ex._8
                 WeddingCard newWGCard = new WeddingCard(brideTxt.Text, groomTxt.Text, sender_weddingTxt.Text);
                 CardsList.cardsList.Add(newWGCard);
 
+                _adapter = new Adapter1(this, CardsList.cardsList); // Create an instance of the adapter   
+                listView1.Adapter = _adapter;
+
                 //_tabHost.CurrentTab = 0;
+
+                var d = new Dialog(this);
+                d.SetContentView(Resource.Layout.IndividualCard);
+                var _content_text = d.FindViewById<TextView>(Resource.Id.content_txt);
+                var _individual_card = d.FindViewById<LinearLayout>(Resource.Id.individual_card);
+                _individual_card.SetBackgroundResource(Resource.Drawable.weddingCard);
+                _content_text.Text = newWGCard.GreetingMsg();
+
+                d.Show();
 
                 brideTxt.Text = "";
                 groomTxt.Text = "";
